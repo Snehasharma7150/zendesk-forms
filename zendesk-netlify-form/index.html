@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Customer Support Form</title>
+</head>
+<body>
+
+<h2>Customer Support</h2>
+
+<form id="supportForm">
+
+  <input type="text" id="name" placeholder="Your Name" required /><br><br>
+
+  <input type="email" id="email" placeholder="Your Email" required /><br><br>
+
+  <input type="text" id="subject" placeholder="Subject" required /><br><br>
+
+  <label>Issue Type:</label><br>
+  <select id="issueType" required>
+    <option value="">Select</option>
+    <option value="technical">Technical</option>
+    <option value="billing">Billing</option>
+    <option value="general">General</option>
+  </select><br><br>
+
+  <label>Product:</label><br>
+  <select id="product" required>
+    <option value="">Select</option>
+    <option value="mobile">Mobile</option>
+    <option value="website">Website</option>
+    <option value="crm">CRM</option>
+  </select><br><br>
+
+  <textarea id="description" placeholder="Describe your issue" required></textarea><br><br>
+
+  <button type="submit">Submit</button>
+
+</form>
+
+<script>
+document.getElementById("supportForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const formData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    subject: document.getElementById("subject").value,
+    issueType: document.getElementById("issueType").value,
+    product: document.getElementById("product").value,
+    description: document.getElementById("description").value
+  };
+
+  const response = await fetch("/.netlify/functions/createTicket", {
+    method: "POST",
+    body: JSON.stringify(formData)
+  });
+
+  if (response.ok) {
+    alert("Ticket created successfully!");
+    document.getElementById("supportForm").reset();
+  } else {
+    alert("Error creating ticket");
+  }
+});
+</script>
+
+</body>
+</html>
